@@ -1,5 +1,5 @@
 [package]
-name = "riscv_emulator"
+name = "rv64_emulator"
 version = "0.1.0"
 authors = ["Sean D'Souza <sdammobubbles@gmail.com>"]
 edition = "2018"
