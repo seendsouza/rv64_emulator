@@ -1,3 +1,5 @@
+mod instruction;
+
 fn main() {
-    println!("Hello, world!");
+    instruction::decode(0x234234);
 }
