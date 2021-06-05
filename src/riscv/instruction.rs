@@ -1,83 +1,4 @@
-#[derive(Debug, PartialEq)]
-pub enum Register {
-    X0,
-    X1,
-    X2,
-    X3,
-    X4,
-    X5,
-    X6,
-    X7,
-    X8,
-    X9,
-    X10,
-    X11,
-    X12,
-    X13,
-    X14,
-    X15,
-    X16,
-    X17,
-    X18,
-    X19,
-    X20,
-    X21,
-    X22,
-    X23,
-    X24,
-    X25,
-    X26,
-    X27,
-    X28,
-    X29,
-    X30,
-    X31,
-    PC,
-}
-impl From<Register> for usize {
-    fn from(reg: Register) -> usize {
-        reg as usize
-    }
-}
-impl From<usize> for Register {
-    fn from(val: usize) -> Register {
-        match val {
-            0 => Register::X0,
-            1 => Register::X1,
-            2 => Register::X2,
-            3 => Register::X3,
-            4 => Register::X4,
-            5 => Register::X5,
-            6 => Register::X6,
-            7 => Register::X7,
-            8 => Register::X8,
-            9 => Register::X9,
-            10 => Register::X10,
-            11 => Register::X11,
-            12 => Register::X12,
-            13 => Register::X13,
-            14 => Register::X14,
-            15 => Register::X15,
-            16 => Register::X16,
-            17 => Register::X17,
-            18 => Register::X18,
-            19 => Register::X19,
-            20 => Register::X20,
-            21 => Register::X21,
-            22 => Register::X22,
-            23 => Register::X23,
-            24 => Register::X24,
-            25 => Register::X25,
-            26 => Register::X26,
-            27 => Register::X27,
-            28 => Register::X28,
-            29 => Register::X29,
-            30 => Register::X30,
-            31 => Register::X31,
-            _ => unreachable!(),
-        }
-    }
-}
+use crate::riscv::cpu;
 // Decode a RISC-V 64 isntruction and return the instruction
 pub fn decode(instruction: u32) -> Instruction {
     let opcode = instruction & 0b1111111;
@@ -94,150 +15,150 @@ pub enum Instruction {
 
     // B-Type
     Beq {
-        rs1: Register,
-        rs2: Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
         imm: i32,
     },
     Bne {
-        rs1: Register,
-        rs2: Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
         imm: i32,
     },
     Blt {
-        rs1: Register,
-        rs2: Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
         imm: i32,
     },
     Bge {
-        rs1: Register,
-        rs2: Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
         imm: i32,
     },
     Bltu {
-        rs1: Register,
-        rs2: Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
         imm: i32,
     },
     Bgeu {
-        rs1: Register,
-        rs2: Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
         imm: i32,
     },
 
     // I-Type
     Lb {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Lh {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Lw {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Lbu {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Lhu {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Lwu {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Ld {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
 
     Fence {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         succ: u32,
         pred: u32,
         fm: u32,
     },
 
     Addi {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Slti {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Sltiu {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Xori {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Ori {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Andi {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Slli {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         shamt: u32,
     },
     Srli {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         shamt: u32,
     },
     Srai {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         shamt: u32,
     },
     Addiw {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Slliw {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         shamt: u32,
     },
     Srliw {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         shamt: u32,
     },
     Sraiw {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         shamt: u32,
     },
 
     Jalr {
-        rd: Register,
-        rs1: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
 
@@ -246,116 +167,116 @@ pub enum Instruction {
 
     // J-Type
     Jal {
-        rd: Register,
+        rd: cpu::Register,
         imm: i32,
     },
 
     // R-Type
     Add {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Sub {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Sll {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Slt {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Sltu {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Xor {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Srl {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Sra {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Or {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     And {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Addw {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Subw {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Sllw {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Srlw {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
     Sraw {
-        rd: Register,
-        rs1: Register,
-        rs2: Register,
+        rd: cpu::Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
     },
 
     // S-Type
     Sb {
-        rs1: Register,
-        rs2: Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
         imm: i32,
     },
     Sh {
-        rs1: Register,
-        rs2: Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
         imm: i32,
     },
     Sw {
-        rs1: Register,
-        rs2: Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
         imm: i32,
     },
     Sd {
-        rs1: Register,
-        rs2: Register,
+        rs1: cpu::Register,
+        rs2: cpu::Register,
         imm: i32,
     },
 
     // U-Type
     Auipc {
-        rd: Register,
+        rd: cpu::Register,
         imm: i32,
     },
     Lui {
-        rd: Register,
+        rd: cpu::Register,
         imm: i32,
     },
 }
@@ -477,10 +398,14 @@ impl InstructionFormat {
                         _ => Instruction::Undefined,
                     },
                     0b1110011 => match funct3 {
-                        0b000 if imm == 0 && rs1 == Register::X0 && rd == Register::X0 => {
+                        0b000
+                            if imm == 0 && rs1 == cpu::Register::X0 && rd == cpu::Register::X0 =>
+                        {
                             Instruction::Ecall
                         }
-                        0b000 if imm == 1 && rs1 == Register::X0 && rd == Register::X0 => {
+                        0b000
+                            if imm == 1 && rs1 == cpu::Register::X0 && rd == cpu::Register::X0 =>
+                        {
                             Instruction::Ebreak
                         }
                         _ => Instruction::Undefined,
