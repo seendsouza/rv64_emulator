@@ -19,7 +19,7 @@ fn main() {
     let mut encoded_instructions = Vec::new();
     match file.read_to_end(&mut encoded_instructions) {
         Err(why) => panic!("couldn't read {}: {}", display, why),
-        Ok(_) => println!("{} read", display),
+        Ok(bytes_read) => bytes_read,
     };
     riscv::emulate(encoded_instructions);
 }
