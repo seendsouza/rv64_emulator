@@ -2,9 +2,9 @@ use crate::riscv::instruction;
 
 pub struct Cpu {
     // XLEN is 64 bits in rv64i
-    registers: [u64; 32],
-    pc: u64,
-    encoded_instructions: Vec<u8>,
+    pub registers: [u64; 32],
+    pub pc: u64,
+    pub encoded_instructions: Vec<u8>,
 }
 impl Cpu {
     pub fn new(encoded_instructions: Vec<u8>) -> Self {
@@ -24,13 +24,6 @@ impl Cpu {
     }
     pub fn execute(&self, instruction: instruction::Instruction) {
         println!("{:?}", instruction);
-    }
-    pub fn run(&mut self) {
-        while self.pc < self.encoded_instructions.len() as u64 {
-            let instruction = self.fetch();
-            self.pc += 4;
-            self.execute(instruction);
-        }
     }
 }
 

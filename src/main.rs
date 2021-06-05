@@ -21,7 +21,5 @@ fn main() {
         Err(why) => panic!("couldn't read {}: {}", display, why),
         Ok(_) => println!("{} read", display),
     };
-
-    let mut cpu = riscv::cpu::Cpu::new(encoded_instructions);
-    cpu.run();
+    riscv::emulate(encoded_instructions);
 }
