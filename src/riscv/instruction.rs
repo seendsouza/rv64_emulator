@@ -741,11 +741,25 @@ mod tests {
     }
     #[test]
     fn decode_lb() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x00078b03),
+            super::Instruction::Lb {
+                rd: (crate::riscv::cpu::AbiRegister::S6).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+                imm: 0
+            }
+        );
     }
     #[test]
     fn decode_lh() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x01099703),
+            super::Instruction::Lh {
+                rd: (crate::riscv::cpu::AbiRegister::A4).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S3).into(),
+                imm: 16
+            }
+        );
     }
     #[test]
     fn decode_lw() {
@@ -771,7 +785,14 @@ mod tests {
     }
     #[test]
     fn decode_lhu() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x010c5783),
+            super::Instruction::Lhu {
+                rd: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S8).into(),
+                imm: 16
+            }
+        );
     }
     #[test]
     fn decode_sb() {
@@ -786,7 +807,14 @@ mod tests {
     }
     #[test]
     fn decode_sh() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x0ef11023),
+            super::Instruction::Sh {
+                rs2: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::Sp).into(),
+                imm: 224
+            }
+        );
     }
     #[test]
     fn decode_sw() {
@@ -812,19 +840,47 @@ mod tests {
     }
     #[test]
     fn decode_slti() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x000b2f13),
+            super::Instruction::Slti {
+                rd: (crate::riscv::cpu::AbiRegister::T5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S6).into(),
+                imm: 0
+            }
+        );
     }
     #[test]
     fn decode_sltiu() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x3b0b3a13),
+            super::Instruction::Sltiu {
+                rd: (crate::riscv::cpu::AbiRegister::S4).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S6).into(),
+                imm: 944
+            }
+        );
     }
     #[test]
     fn decode_xori() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x8307c793),
+            super::Instruction::Xori {
+                rd: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+                imm: -2000
+            }
+        );
     }
     #[test]
     fn decode_ori() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x01096913),
+            super::Instruction::Ori {
+                rd: (crate::riscv::cpu::AbiRegister::S2).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S2).into(),
+                imm: 16
+            }
+        );
     }
     #[test]
     fn decode_andi() {
@@ -861,23 +917,58 @@ mod tests {
     }
     #[test]
     fn decode_sll() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x00c797b3),
+            super::Instruction::Sll {
+                rd: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A2).into(),
+            }
+        );
     }
     #[test]
     fn decode_slt() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x00632e33),
+            super::Instruction::Slt {
+                rd: (crate::riscv::cpu::AbiRegister::T3).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::T1).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::T1).into(),
+            }
+        );
     }
     #[test]
     fn decode_sltu() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x0123bfb3),
+            super::Instruction::Sltu {
+                rd: (crate::riscv::cpu::AbiRegister::T6).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::T2).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::S2).into(),
+            }
+        );
     }
     #[test]
     fn decode_xor() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x00facab3),
+            super::Instruction::Xor {
+                rd: (crate::riscv::cpu::AbiRegister::S5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S5).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A5).into(),
+            }
+        );
     }
     #[test]
     fn decode_srl() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x00a457b3),
+            super::Instruction::Srl {
+                rd: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A0).into(),
+            }
+        );
     }
     #[test]
     fn decode_sra() {
@@ -919,7 +1010,14 @@ mod tests {
     }
     #[test]
     fn decode_lwu() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x0000e903),
+            super::Instruction::Lwu {
+                rd: (crate::riscv::cpu::AbiRegister::S2).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::Ra).into(),
+                imm: 0
+            }
+        );
     }
     #[test]
     fn decode_ld() {
@@ -956,7 +1054,14 @@ mod tests {
     }
     #[test]
     fn decode_srli() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x01e75793),
+            super::Instruction::Srli {
+                rd: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A4).into(),
+                shamt: 0x1e
+            }
+        );
     }
     #[test]
     fn decode_srai() {
@@ -982,15 +1087,36 @@ mod tests {
     }
     #[test]
     fn decode_slliw() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x0054141b),
+            super::Instruction::Slliw {
+                rd: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+                shamt: 0x5
+            }
+        );
     }
     #[test]
     fn decode_srliw() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x01f6d49b),
+            super::Instruction::Srliw {
+                rd: (crate::riscv::cpu::AbiRegister::S1).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A3).into(),
+                shamt: 0x1f
+            }
+        );
     }
     #[test]
     fn decode_sraiw() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x4014d49b),
+            super::Instruction::Sraiw {
+                rd: (crate::riscv::cpu::AbiRegister::S1).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S1).into(),
+                shamt: 0x1
+            }
+        );
     }
     #[test]
     fn decode_addw() {
@@ -1005,7 +1131,14 @@ mod tests {
     }
     #[test]
     fn decode_subw() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x41b404bb),
+            super::Instruction::Subw {
+                rd: (crate::riscv::cpu::AbiRegister::S1).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::S10).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S11).into(),
+            }
+        );
     }
     #[test]
     fn decode_sllw() {
@@ -1020,10 +1153,24 @@ mod tests {
     }
     #[test]
     fn decode_srlw() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x00b7573b),
+            super::Instruction::Srlw {
+                rd: (crate::riscv::cpu::AbiRegister::A4).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A1).into(),
+            }
+        );
     }
     #[test]
     fn decode_sraw() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0x40f5553b),
+            super::Instruction::Sraw {
+                rd: (crate::riscv::cpu::AbiRegister::A0).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A0).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+            }
+        );
     }
 }
