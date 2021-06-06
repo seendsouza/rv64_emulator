@@ -972,7 +972,14 @@ mod tests {
     }
     #[test]
     fn decode_sra() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            super::decode(0b01000000101001000101011110110011),
+            super::Instruction::Sra {
+                rd: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A0).into(),
+            }
+        );
     }
     #[test]
     fn decode_or() {
@@ -1006,7 +1013,7 @@ mod tests {
     }
     #[test]
     fn decode_ebreak() {
-        panic!("// TODO: implement this");
+        assert_eq!(super::decode(0x00100073), super::Instruction::Ebreak);
     }
     #[test]
     fn decode_lwu() {
