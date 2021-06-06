@@ -178,7 +178,6 @@ impl From<AbiRegister> for Register {
             AbiRegister::T4 => Register::X29,
             AbiRegister::T5 => Register::X30,
             AbiRegister::T6 => Register::X31,
-            _ => unreachable!(),
         }
     }
 }
