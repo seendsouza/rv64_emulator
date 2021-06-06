@@ -1,5 +1,5 @@
 use crate::riscv::cpu;
-// Decode a RISC-V 64 isntruction and return the instruction
+// Decode a RISC-V 64 instruction and return the instruction
 pub fn decode(instruction: u32) -> Instruction {
     let opcode = instruction & 0b1111111;
     if let Some(instruction_format) = &ENCODING_TABLE[opcode as usize] {
