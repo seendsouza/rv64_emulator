@@ -291,7 +291,7 @@ enum InstructionFormat {
 
 impl InstructionFormat {
     fn decode(&self, instruction: u32) -> Instruction {
-        let opcode = instruction & 0b11111111;
+        let opcode = instruction & 0b1111111;
         match self {
             InstructionFormat::B => {
                 // Decode fields
