@@ -640,11 +640,12 @@ const ENCODING_TABLE: [Option<InstructionFormat>; 128] = [
 
 #[cfg(test)]
 mod tests {
+    use super::*;
     #[test]
     fn decode_lui() {
         assert_eq!(
-            super::decode(0x00010537),
-            super::Instruction::Lui {
+            decode(0x00010537),
+            Instruction::Lui {
                 rd: (crate::riscv::cpu::AbiRegister::A0).into(),
                 imm: 0x10
             }
@@ -653,8 +654,8 @@ mod tests {
     #[test]
     fn decode_auipc() {
         assert_eq!(
-            super::decode(0x00000297),
-            super::Instruction::Auipc {
+            decode(0x00000297),
+            Instruction::Auipc {
                 rd: (crate::riscv::cpu::AbiRegister::T0).into(),
                 imm: 0x0
             }
@@ -665,8 +666,8 @@ mod tests {
     #[test]
     fn decode_jalr() {
         assert_eq!(
-            super::decode(0xf98680e7),
-            super::Instruction::Jalr {
+            decode(0xf98680e7),
+            Instruction::Jalr {
                 rd: (crate::riscv::cpu::AbiRegister::Zero).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A3).into(),
                 imm: -104
@@ -676,8 +677,8 @@ mod tests {
     #[test]
     fn decode_beq() {
         assert_eq!(
-            super::decode(0x05778063),
-            super::Instruction::Beq {
+            decode(0x05778063),
+            Instruction::Beq {
                 rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::S7).into(),
                 imm: 10424
@@ -687,8 +688,8 @@ mod tests {
     #[test]
     fn decode_bne() {
         assert_eq!(
-            super::decode(0xff3416e3),
-            super::Instruction::Beq {
+            decode(0xff3416e3),
+            Instruction::Beq {
                 rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::S3).into(),
                 imm: 0x103dc
@@ -698,8 +699,8 @@ mod tests {
     #[test]
     fn decode_blt() {
         assert_eq!(
-            super::decode(0x08e84663),
-            super::Instruction::Blt {
+            decode(0x08e84663),
+            Instruction::Blt {
                 rs1: (crate::riscv::cpu::AbiRegister::A6).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
                 imm: 0x105b8
@@ -709,8 +710,8 @@ mod tests {
     #[test]
     fn decode_bge() {
         assert_eq!(
-            super::decode(0xfce7dce3),
-            super::Instruction::Bge {
+            decode(0xfce7dce3),
+            Instruction::Bge {
                 rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
                 imm: 10198
@@ -720,8 +721,8 @@ mod tests {
     #[test]
     fn decode_bltu() {
         assert_eq!(
-            super::decode(0xfed76ae3),
-            super::Instruction::Bge {
+            decode(0xfed76ae3),
+            Instruction::Bge {
                 rs1: (crate::riscv::cpu::AbiRegister::A4).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A3).into(),
                 imm: 0x102c8
@@ -731,8 +732,8 @@ mod tests {
     #[test]
     fn decode_bgeu() {
         assert_eq!(
-            super::decode(0xf6c374e3),
-            super::Instruction::Bgeu {
+            decode(0xf6c374e3),
+            Instruction::Bgeu {
                 rs1: (crate::riscv::cpu::AbiRegister::T1).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A2).into(),
                 imm: 0x102e0
@@ -742,8 +743,8 @@ mod tests {
     #[test]
     fn decode_lb() {
         assert_eq!(
-            super::decode(0x00078b03),
-            super::Instruction::Lb {
+            decode(0x00078b03),
+            Instruction::Lb {
                 rd: (crate::riscv::cpu::AbiRegister::S6).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
                 imm: 0
@@ -753,8 +754,8 @@ mod tests {
     #[test]
     fn decode_lh() {
         assert_eq!(
-            super::decode(0x01099703),
-            super::Instruction::Lh {
+            decode(0x01099703),
+            Instruction::Lh {
                 rd: (crate::riscv::cpu::AbiRegister::A4).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S3).into(),
                 imm: 16
@@ -764,8 +765,8 @@ mod tests {
     #[test]
     fn decode_lw() {
         assert_eq!(
-            super::decode(0xfec42703),
-            super::Instruction::Lw {
+            decode(0xfec42703),
+            Instruction::Lw {
                 rd: (crate::riscv::cpu::AbiRegister::A4).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 imm: -20
@@ -775,8 +776,8 @@ mod tests {
     #[test]
     fn decode_lbu() {
         assert_eq!(
-            super::decode(0xf601c703),
-            super::Instruction::Lbu {
+            decode(0xf601c703),
+            Instruction::Lbu {
                 rd: (crate::riscv::cpu::AbiRegister::A4).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::Gp).into(),
                 imm: -160
@@ -786,8 +787,8 @@ mod tests {
     #[test]
     fn decode_lhu() {
         assert_eq!(
-            super::decode(0x010c5783),
-            super::Instruction::Lhu {
+            decode(0x010c5783),
+            Instruction::Lhu {
                 rd: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S8).into(),
                 imm: 16
@@ -797,8 +798,8 @@ mod tests {
     #[test]
     fn decode_sb() {
         assert_eq!(
-            super::decode(0xf6f18023),
-            super::Instruction::Sb {
+            decode(0xf6f18023),
+            Instruction::Sb {
                 rs2: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::Gp).into(),
                 imm: -160
@@ -808,8 +809,8 @@ mod tests {
     #[test]
     fn decode_sh() {
         assert_eq!(
-            super::decode(0x0ef11023),
-            super::Instruction::Sh {
+            decode(0x0ef11023),
+            Instruction::Sh {
                 rs2: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::Sp).into(),
                 imm: 224
@@ -819,8 +820,8 @@ mod tests {
     #[test]
     fn decode_sw() {
         assert_eq!(
-            super::decode(0xfe042623),
-            super::Instruction::Sw {
+            decode(0xfe042623),
+            Instruction::Sw {
                 rs2: (crate::riscv::cpu::AbiRegister::Zero).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 imm: -20
@@ -830,8 +831,8 @@ mod tests {
     #[test]
     fn decode_addi() {
         assert_eq!(
-            super::decode(0x4a850513),
-            super::Instruction::Addi {
+            decode(0x4a850513),
+            Instruction::Addi {
                 rd: (crate::riscv::cpu::AbiRegister::A0).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A0).into(),
                 imm: 1192
@@ -841,8 +842,8 @@ mod tests {
     #[test]
     fn decode_slti() {
         assert_eq!(
-            super::decode(0x000b2f13),
-            super::Instruction::Slti {
+            decode(0x000b2f13),
+            Instruction::Slti {
                 rd: (crate::riscv::cpu::AbiRegister::T5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S6).into(),
                 imm: 0
@@ -852,8 +853,8 @@ mod tests {
     #[test]
     fn decode_sltiu() {
         assert_eq!(
-            super::decode(0x3b0b3a13),
-            super::Instruction::Sltiu {
+            decode(0x3b0b3a13),
+            Instruction::Sltiu {
                 rd: (crate::riscv::cpu::AbiRegister::S4).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S6).into(),
                 imm: 944
@@ -863,8 +864,8 @@ mod tests {
     #[test]
     fn decode_xori() {
         assert_eq!(
-            super::decode(0x8307c793),
-            super::Instruction::Xori {
+            decode(0x8307c793),
+            Instruction::Xori {
                 rd: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
                 imm: -2000
@@ -874,8 +875,8 @@ mod tests {
     #[test]
     fn decode_ori() {
         assert_eq!(
-            super::decode(0x01096913),
-            super::Instruction::Ori {
+            decode(0x01096913),
+            Instruction::Ori {
                 rd: (crate::riscv::cpu::AbiRegister::S2).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S2).into(),
                 imm: 16
@@ -885,8 +886,8 @@ mod tests {
     #[test]
     fn decode_andi() {
         assert_eq!(
-            super::decode(0x00f77793),
-            super::Instruction::Andi {
+            decode(0x00f77793),
+            Instruction::Andi {
                 rd: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A4).into(),
                 imm: 14
@@ -896,8 +897,8 @@ mod tests {
     #[test]
     fn decode_add() {
         assert_eq!(
-            super::decode(0x00878433),
-            super::Instruction::Add {
+            decode(0x00878433),
+            Instruction::Add {
                 rd: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
@@ -907,8 +908,8 @@ mod tests {
     #[test]
     fn decode_sub() {
         assert_eq!(
-            super::decode(0x40a60633),
-            super::Instruction::Sub {
+            decode(0x40a60633),
+            Instruction::Sub {
                 rd: (crate::riscv::cpu::AbiRegister::A2).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A2).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A0).into(),
@@ -918,8 +919,8 @@ mod tests {
     #[test]
     fn decode_sll() {
         assert_eq!(
-            super::decode(0x00c797b3),
-            super::Instruction::Sll {
+            decode(0x00c797b3),
+            Instruction::Sll {
                 rd: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A2).into(),
@@ -929,8 +930,8 @@ mod tests {
     #[test]
     fn decode_slt() {
         assert_eq!(
-            super::decode(0x00632e33),
-            super::Instruction::Slt {
+            decode(0x00632e33),
+            Instruction::Slt {
                 rd: (crate::riscv::cpu::AbiRegister::T3).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::T1).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::T1).into(),
@@ -940,8 +941,8 @@ mod tests {
     #[test]
     fn decode_sltu() {
         assert_eq!(
-            super::decode(0x0123bfb3),
-            super::Instruction::Sltu {
+            decode(0x0123bfb3),
+            Instruction::Sltu {
                 rd: (crate::riscv::cpu::AbiRegister::T6).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::T2).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::S2).into(),
@@ -951,8 +952,8 @@ mod tests {
     #[test]
     fn decode_xor() {
         assert_eq!(
-            super::decode(0x00facab3),
-            super::Instruction::Xor {
+            decode(0x00facab3),
+            Instruction::Xor {
                 rd: (crate::riscv::cpu::AbiRegister::S5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S5).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A5).into(),
@@ -962,8 +963,8 @@ mod tests {
     #[test]
     fn decode_srl() {
         assert_eq!(
-            super::decode(0x00a457b3),
-            super::Instruction::Srl {
+            decode(0x00a457b3),
+            Instruction::Srl {
                 rd: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A0).into(),
@@ -973,8 +974,8 @@ mod tests {
     #[test]
     fn decode_sra() {
         assert_eq!(
-            super::decode(0b01000000101001000101011110110011),
-            super::Instruction::Sra {
+            decode(0b01000000101001000101011110110011),
+            Instruction::Sra {
                 rd: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A0).into(),
@@ -984,8 +985,8 @@ mod tests {
     #[test]
     fn decode_or() {
         assert_eq!(
-            super::decode(0x00c8e8b3),
-            super::Instruction::Or {
+            decode(0x00c8e8b3),
+            Instruction::Or {
                 rd: (crate::riscv::cpu::AbiRegister::A7).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A7).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A2).into(),
@@ -995,8 +996,8 @@ mod tests {
     #[test]
     fn decode_and() {
         assert_eq!(
-            super::decode(0x00d7f7b3),
-            super::Instruction::And {
+            decode(0x00d7f7b3),
+            Instruction::And {
                 rd: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A3).into(),
@@ -1009,17 +1010,17 @@ mod tests {
     }
     #[test]
     fn decode_ecall() {
-        assert_eq!(super::decode(0x00000073), super::Instruction::Ecall);
+        assert_eq!(decode(0x00000073), Instruction::Ecall);
     }
     #[test]
     fn decode_ebreak() {
-        assert_eq!(super::decode(0x00100073), super::Instruction::Ebreak);
+        assert_eq!(decode(0x00100073), Instruction::Ebreak);
     }
     #[test]
     fn decode_lwu() {
         assert_eq!(
-            super::decode(0x0000e903),
-            super::Instruction::Lwu {
+            decode(0x0000e903),
+            Instruction::Lwu {
                 rd: (crate::riscv::cpu::AbiRegister::S2).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::Ra).into(),
                 imm: 0
@@ -1029,8 +1030,8 @@ mod tests {
     #[test]
     fn decode_ld() {
         assert_eq!(
-            super::decode(0xf581b503),
-            super::Instruction::Ld {
+            decode(0xf581b503),
+            Instruction::Ld {
                 rd: (crate::riscv::cpu::AbiRegister::A0).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::Gp).into(),
                 imm: -168,
@@ -1040,8 +1041,8 @@ mod tests {
     #[test]
     fn decode_sd() {
         assert_eq!(
-            super::decode(0x00813023),
-            super::Instruction::Sd {
+            decode(0x00813023),
+            Instruction::Sd {
                 rs2: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::Sp).into(),
                 imm: 0,
@@ -1051,8 +1052,8 @@ mod tests {
     #[test]
     fn decode_slli() {
         assert_eq!(
-            super::decode(0x00269693),
-            super::Instruction::Slli {
+            decode(0x00269693),
+            Instruction::Slli {
                 rd: (crate::riscv::cpu::AbiRegister::A3).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A3).into(),
                 shamt: 0x2
@@ -1062,8 +1063,8 @@ mod tests {
     #[test]
     fn decode_srli() {
         assert_eq!(
-            super::decode(0x01e75793),
-            super::Instruction::Srli {
+            decode(0x01e75793),
+            Instruction::Srli {
                 rd: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A4).into(),
                 shamt: 0x1e
@@ -1073,8 +1074,8 @@ mod tests {
     #[test]
     fn decode_srai() {
         assert_eq!(
-            super::decode(0x4037d493),
-            super::Instruction::Srai {
+            decode(0x4037d493),
+            Instruction::Srai {
                 rd: (crate::riscv::cpu::AbiRegister::S1).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
                 shamt: 0x3
@@ -1084,8 +1085,8 @@ mod tests {
     #[test]
     fn decode_addiw() {
         assert_eq!(
-            super::decode(0xfff4841b),
-            super::Instruction::Addiw {
+            decode(0xfff4841b),
+            Instruction::Addiw {
                 rd: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S1).into(),
                 imm: -1
@@ -1095,8 +1096,8 @@ mod tests {
     #[test]
     fn decode_slliw() {
         assert_eq!(
-            super::decode(0x0054141b),
-            super::Instruction::Slliw {
+            decode(0x0054141b),
+            Instruction::Slliw {
                 rd: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 shamt: 0x5
@@ -1106,8 +1107,8 @@ mod tests {
     #[test]
     fn decode_srliw() {
         assert_eq!(
-            super::decode(0x01f6d49b),
-            super::Instruction::Srliw {
+            decode(0x01f6d49b),
+            Instruction::Srliw {
                 rd: (crate::riscv::cpu::AbiRegister::S1).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A3).into(),
                 shamt: 0x1f
@@ -1117,8 +1118,8 @@ mod tests {
     #[test]
     fn decode_sraiw() {
         assert_eq!(
-            super::decode(0x4014d49b),
-            super::Instruction::Sraiw {
+            decode(0x4014d49b),
+            Instruction::Sraiw {
                 rd: (crate::riscv::cpu::AbiRegister::S1).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S1).into(),
                 shamt: 0x1
@@ -1128,8 +1129,8 @@ mod tests {
     #[test]
     fn decode_addw() {
         assert_eq!(
-            super::decode(0x00f707bb),
-            super::Instruction::Addw {
+            decode(0x00f707bb),
+            Instruction::Addw {
                 rd: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
@@ -1139,8 +1140,8 @@ mod tests {
     #[test]
     fn decode_subw() {
         assert_eq!(
-            super::decode(0x41b404bb),
-            super::Instruction::Subw {
+            decode(0x41b404bb),
+            Instruction::Subw {
                 rd: (crate::riscv::cpu::AbiRegister::S1).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::S10).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S11).into(),
@@ -1150,8 +1151,8 @@ mod tests {
     #[test]
     fn decode_sllw() {
         assert_eq!(
-            super::decode(0x008a96bb),
-            super::Instruction::Sllw {
+            decode(0x008a96bb),
+            Instruction::Sllw {
                 rd: (crate::riscv::cpu::AbiRegister::A3).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::S5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
@@ -1161,8 +1162,8 @@ mod tests {
     #[test]
     fn decode_srlw() {
         assert_eq!(
-            super::decode(0x00b7573b),
-            super::Instruction::Srlw {
+            decode(0x00b7573b),
+            Instruction::Srlw {
                 rd: (crate::riscv::cpu::AbiRegister::A4).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A1).into(),
@@ -1172,8 +1173,8 @@ mod tests {
     #[test]
     fn decode_sraw() {
         assert_eq!(
-            super::decode(0x40f5553b),
-            super::Instruction::Sraw {
+            decode(0x40f5553b),
+            Instruction::Sraw {
                 rd: (crate::riscv::cpu::AbiRegister::A0).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A0).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
