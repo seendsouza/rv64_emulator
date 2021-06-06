@@ -9,7 +9,7 @@ pub fn decode(instruction: u32) -> Instruction {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Instruction {
     Undefined,
 
@@ -603,7 +603,7 @@ const ENCODING_TABLE: [Option<InstructionFormat>; 128] = [
     /* 0b1011100 */ None,
     /* 0b1011101 */ None,
     /* 0b1011110 */ None,
-    /* 0b1011111 */ Some(InstructionFormat::J),
+    /* 0b1011111 */ None,
     /* 0b1100000 */ None,
     /* 0b1100001 */ None,
     /* 0b1100010 */ None,
@@ -619,7 +619,7 @@ const ENCODING_TABLE: [Option<InstructionFormat>; 128] = [
     /* 0b1101100 */ None,
     /* 0b1101101 */ None,
     /* 0b1101110 */ None,
-    /* 0b1101111 */ None,
+    /* 0b1101111 */ Some(InstructionFormat::J),
     /* 0b1110000 */ None,
     /* 0b1110001 */ None,
     /* 0b1110010 */ None,
@@ -637,3 +637,393 @@ const ENCODING_TABLE: [Option<InstructionFormat>; 128] = [
     /* 0b1111110 */ None,
     /* 0b1111111 */ None,
 ];
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn decode_lui() {
+        assert_eq!(
+            super::decode(0x00010537),
+            super::Instruction::Lui {
+                rd: (crate::riscv::cpu::AbiRegister::A0).into(),
+                imm: 0x10
+            }
+        );
+    }
+    #[test]
+    fn decode_auipc() {
+        assert_eq!(
+            super::decode(0x00000297),
+            super::Instruction::Auipc {
+                rd: (crate::riscv::cpu::AbiRegister::T0).into(),
+                imm: 0x0
+            }
+        );
+    }
+    #[test]
+    fn decode_jal() {}
+    #[test]
+    fn decode_jalr() {
+        assert_eq!(
+            super::decode(0xf98680e7),
+            super::Instruction::Jalr {
+                rd: (crate::riscv::cpu::AbiRegister::Zero).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A3).into(),
+                imm: -104
+            }
+        );
+    }
+    #[test]
+    fn decode_beq() {
+        assert_eq!(
+            super::decode(0x05778063),
+            super::Instruction::Beq {
+                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::S7).into(),
+                imm: 10424
+            }
+        );
+    }
+    #[test]
+    fn decode_bne() {
+        assert_eq!(
+            super::decode(0xff3416e3),
+            super::Instruction::Beq {
+                rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::S3).into(),
+                imm: 0x103dc
+            }
+        );
+    }
+    #[test]
+    fn decode_blt() {
+        assert_eq!(
+            super::decode(0x08e84663),
+            super::Instruction::Blt {
+                rs1: (crate::riscv::cpu::AbiRegister::A6).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
+                imm: 0x105b8
+            }
+        );
+    }
+    #[test]
+    fn decode_bge() {
+        assert_eq!(
+            super::decode(0xfce7dce3),
+            super::Instruction::Bge {
+                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
+                imm: 10198
+            }
+        );
+    }
+    #[test]
+    fn decode_bltu() {
+        assert_eq!(
+            super::decode(0xfed76ae3),
+            super::Instruction::Bge {
+                rs1: (crate::riscv::cpu::AbiRegister::A4).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A3).into(),
+                imm: 0x102c8
+            }
+        );
+    }
+    #[test]
+    fn decode_bgeu() {
+        assert_eq!(
+            super::decode(0xf6c374e3),
+            super::Instruction::Bgeu {
+                rs1: (crate::riscv::cpu::AbiRegister::T1).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A2).into(),
+                imm: 0x102e0
+            }
+        );
+    }
+    #[test]
+    fn decode_lb() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_lh() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_lw() {
+        assert_eq!(
+            super::decode(0xfec42703),
+            super::Instruction::Lw {
+                rd: (crate::riscv::cpu::AbiRegister::A4).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+                imm: -20
+            }
+        );
+    }
+    #[test]
+    fn decode_lbu() {
+        assert_eq!(
+            super::decode(0xf601c703),
+            super::Instruction::Lbu {
+                rd: (crate::riscv::cpu::AbiRegister::A4).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::Gp).into(),
+                imm: -160
+            }
+        );
+    }
+    #[test]
+    fn decode_lhu() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_sb() {
+        assert_eq!(
+            super::decode(0xf6f18023),
+            super::Instruction::Sb {
+                rs2: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::Gp).into(),
+                imm: -160
+            }
+        );
+    }
+    #[test]
+    fn decode_sh() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_sw() {
+        assert_eq!(
+            super::decode(0xfe042623),
+            super::Instruction::Sw {
+                rs2: (crate::riscv::cpu::AbiRegister::Zero).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+                imm: -20
+            }
+        );
+    }
+    #[test]
+    fn decode_addi() {
+        assert_eq!(
+            super::decode(0x4a850513),
+            super::Instruction::Addi {
+                rd: (crate::riscv::cpu::AbiRegister::A0).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A0).into(),
+                imm: 1192
+            }
+        );
+    }
+    #[test]
+    fn decode_slti() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_sltiu() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_xori() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_ori() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_andi() {
+        assert_eq!(
+            super::decode(0x00f77793),
+            super::Instruction::Andi {
+                rd: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A4).into(),
+                imm: 14
+            }
+        );
+    }
+    #[test]
+    fn decode_add() {
+        assert_eq!(
+            super::decode(0x00878433),
+            super::Instruction::Add {
+                rd: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+            }
+        );
+    }
+    #[test]
+    fn decode_sub() {
+        assert_eq!(
+            super::decode(0x40a60633),
+            super::Instruction::Sub {
+                rd: (crate::riscv::cpu::AbiRegister::A2).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A2).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A0).into(),
+            }
+        );
+    }
+    #[test]
+    fn decode_sll() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_slt() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_sltu() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_xor() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_srl() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_sra() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_or() {
+        assert_eq!(
+            super::decode(0x00c8e8b3),
+            super::Instruction::Or {
+                rd: (crate::riscv::cpu::AbiRegister::A7).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A7).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A2).into(),
+            }
+        );
+    }
+    #[test]
+    fn decode_and() {
+        assert_eq!(
+            super::decode(0x00d7f7b3),
+            super::Instruction::And {
+                rd: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A3).into(),
+            }
+        );
+    }
+    #[test]
+    fn decode_fence() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_ecall() {
+        assert_eq!(super::decode(0x00000073), super::Instruction::Ecall);
+    }
+    #[test]
+    fn decode_ebreak() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_lwu() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_ld() {
+        assert_eq!(
+            super::decode(0xf581b503),
+            super::Instruction::Ld {
+                rd: (crate::riscv::cpu::AbiRegister::A0).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::Gp).into(),
+                imm: -168,
+            }
+        );
+    }
+    #[test]
+    fn decode_sd() {
+        assert_eq!(
+            super::decode(0x00813023),
+            super::Instruction::Sd {
+                rs2: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::Sp).into(),
+                imm: 0,
+            }
+        );
+    }
+    #[test]
+    fn decode_slli() {
+        assert_eq!(
+            super::decode(0x00269693),
+            super::Instruction::Slli {
+                rd: (crate::riscv::cpu::AbiRegister::A3).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A3).into(),
+                shamt: 0x2
+            }
+        );
+    }
+    #[test]
+    fn decode_srli() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_srai() {
+        assert_eq!(
+            super::decode(0x4037d493),
+            super::Instruction::Srai {
+                rd: (crate::riscv::cpu::AbiRegister::S1).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+                shamt: 0x3
+            }
+        );
+    }
+    #[test]
+    fn decode_addiw() {
+        assert_eq!(
+            super::decode(0xfff4841b),
+            super::Instruction::Addiw {
+                rd: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S1).into(),
+                imm: -1
+            }
+        );
+    }
+    #[test]
+    fn decode_slliw() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_srliw() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_sraiw() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_addw() {
+        assert_eq!(
+            super::decode(0x00f707bb),
+            super::Instruction::Addw {
+                rd: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+            }
+        );
+    }
+    #[test]
+    fn decode_subw() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_sllw() {
+        assert_eq!(
+            super::decode(0x008a96bb),
+            super::Instruction::Sllw {
+                rd: (crate::riscv::cpu::AbiRegister::A3).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::S5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+            }
+        );
+    }
+    #[test]
+    fn decode_srlw() {
+        panic!("// TODO: implement this");
+    }
+    #[test]
+    fn decode_sraw() {
+        panic!("// TODO: implement this");
+    }
+}

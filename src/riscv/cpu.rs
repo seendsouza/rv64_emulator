@@ -14,16 +14,16 @@ impl Cpu {
             encoded_instructions,
         }
     }
-    pub fn fetch(&self) -> instruction::Instruction {
+    pub fn fetch(&self) -> u32 {
         let index = self.pc as usize;
         let encoded_instruction = (self.encoded_instructions[index] as u32)
             | ((self.encoded_instructions[index + 1] as u32) << 8)
             | ((self.encoded_instructions[index + 2] as u32) << 16)
             | ((self.encoded_instructions[index + 3] as u32) << 24);
-        instruction::decode(encoded_instruction)
+        encoded_instruction
     }
     pub fn execute(&self, instruction: instruction::Instruction) {
-        println!("{:?}", instruction);
+        //println!("{:?}", instruction);
     }
 }
 
@@ -63,6 +63,42 @@ pub enum Register {
     X30,
     X31,
 }
+#[derive(Debug, PartialEq)]
+pub enum AbiRegister {
+    Zero,
+    Ra,
+    Sp,
+    Gp,
+    Tp,
+    T0,
+    T1,
+    T2,
+    S0Fp,
+    S1,
+    A0,
+    A1,
+    A2,
+    A3,
+    A4,
+    A5,
+    A6,
+    A7,
+    S2,
+    S3,
+    S4,
+    S5,
+    S6,
+    S7,
+    S8,
+    S9,
+    S10,
+    S11,
+    T3,
+    T4,
+    T5,
+    T6,
+}
+
 impl From<Register> for usize {
     fn from(reg: Register) -> usize {
         reg as usize
@@ -103,6 +139,45 @@ impl From<usize> for Register {
             29 => Register::X29,
             30 => Register::X30,
             31 => Register::X31,
+            _ => unreachable!(),
+        }
+    }
+}
+impl From<AbiRegister> for Register {
+    fn from(abi_name: AbiRegister) -> Register {
+        match abi_name {
+            AbiRegister::Zero => Register::X0,
+            AbiRegister::Ra => Register::X1,
+            AbiRegister::Sp => Register::X2,
+            AbiRegister::Gp => Register::X3,
+            AbiRegister::Tp => Register::X4,
+            AbiRegister::T0 => Register::X5,
+            AbiRegister::T1 => Register::X6,
+            AbiRegister::T2 => Register::X7,
+            AbiRegister::S0Fp => Register::X8,
+            AbiRegister::S1 => Register::X9,
+            AbiRegister::A0 => Register::X10,
+            AbiRegister::A1 => Register::X11,
+            AbiRegister::A2 => Register::X12,
+            AbiRegister::A3 => Register::X13,
+            AbiRegister::A4 => Register::X14,
+            AbiRegister::A5 => Register::X15,
+            AbiRegister::A6 => Register::X16,
+            AbiRegister::A7 => Register::X17,
+            AbiRegister::S2 => Register::X18,
+            AbiRegister::S3 => Register::X19,
+            AbiRegister::S4 => Register::X20,
+            AbiRegister::S5 => Register::X21,
+            AbiRegister::S6 => Register::X22,
+            AbiRegister::S7 => Register::X23,
+            AbiRegister::S8 => Register::X24,
+            AbiRegister::S9 => Register::X25,
+            AbiRegister::S10 => Register::X26,
+            AbiRegister::S11 => Register::X27,
+            AbiRegister::T3 => Register::X28,
+            AbiRegister::T4 => Register::X29,
+            AbiRegister::T5 => Register::X30,
+            AbiRegister::T6 => Register::X31,
             _ => unreachable!(),
         }
     }
