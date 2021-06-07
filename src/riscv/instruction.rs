@@ -335,7 +335,7 @@ impl InstructionFormat {
                 // Shift amount field for Slliw, Srliw and Sraiw
                 let shamtw = (imm & 0b11111) as u32;
                 // 30th bit contains right shift type
-                let rshift_type = ((imm & (1 << 30)) >> 30) as u32;
+                let rshift_type = ((imm >> 10) & 0b11) as u32;
 
                 // Sign extend the immediate
                 let imm = ((imm as i32) << 20) >> 20;
