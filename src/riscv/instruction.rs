@@ -495,8 +495,10 @@ impl InstructionFormat {
 
             InstructionFormat::U => {
                 // Decode fields
-                let imm = (instruction & 0xfffff000) as i32;
+                let imm = (instruction >> 12) as i32;
                 let rd = (((instruction >> 7) & 0b11111) as usize).into();
+
+                println!("{:b} {:b}", instruction, imm);
 
                 match opcode {
                     0b0010111 => Instruction::Auipc { rd, imm },
