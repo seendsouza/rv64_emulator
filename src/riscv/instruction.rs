@@ -393,7 +393,7 @@ impl InstructionFormat {
                         },
                         _ => Instruction::Undefined,
                     },
-                    0b100111 => match funct3 {
+                    0b1100111 => match funct3 {
                         0b000 => Instruction::Jalr { rd, rs1, imm },
                         _ => Instruction::Undefined,
                     },
@@ -670,7 +670,7 @@ mod tests {
         assert_eq!(
             decode(0xf98680e7),
             Instruction::Jalr {
-                rd: (crate::riscv::cpu::AbiRegister::Zero).into(),
+                rd: (crate::riscv::cpu::AbiRegister::Ra).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A3).into(),
                 imm: -104
             }
