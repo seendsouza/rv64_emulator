@@ -890,7 +890,7 @@ mod tests {
             Instruction::Andi {
                 rd: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs1: (crate::riscv::cpu::AbiRegister::A4).into(),
-                imm: 14
+                imm: 15
             }
         );
     }
@@ -1143,7 +1143,7 @@ mod tests {
             decode(0x41b404bb),
             Instruction::Subw {
                 rd: (crate::riscv::cpu::AbiRegister::S1).into(),
-                rs1: (crate::riscv::cpu::AbiRegister::S10).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::S11).into(),
             }
         );
