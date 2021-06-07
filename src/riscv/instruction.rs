@@ -298,7 +298,7 @@ impl InstructionFormat {
                 let imm12105 = (instruction >> 25) & 0b1111111;
                 let rs2 = (((instruction >> 20) & 0b11111) as usize).into();
                 let rs1 = (((instruction >> 15) & 0b11111) as usize).into();
-                let funct3 = (instruction >> 12) & 0b11;
+                let funct3 = (instruction >> 12) & 0b111;
                 let imm4111 = (instruction >> 7) & 0b11111;
 
                 // Split the immediate
@@ -326,7 +326,7 @@ impl InstructionFormat {
                 // Decode fields
                 let imm = (instruction >> 20) & 0b1111_1111_1111;
                 let rs1 = (((instruction >> 15) & 0b11111) as usize).into();
-                let funct3 = (instruction >> 12) & 0b11;
+                let funct3 = (instruction >> 12) & 0b111;
                 let rd = (((instruction >> 7) & 0b11111) as usize).into();
 
                 // Shifts are encoded as a specialization of the I-type format
@@ -440,7 +440,7 @@ impl InstructionFormat {
                 let funct7 = (instruction >> 25) & 0b1111111;
                 let rs2 = (((instruction >> 20) & 0b11111) as usize).into();
                 let rs1 = (((instruction >> 15) & 0b11111) as usize).into();
-                let funct3 = (instruction >> 12) & 0b11;
+                let funct3 = (instruction >> 12) & 0b111;
                 let rd = (((instruction >> 7) & 0b11111) as usize).into();
 
                 match opcode {
@@ -474,7 +474,7 @@ impl InstructionFormat {
                 let imm115 = (instruction >> 25) & 0b1111111;
                 let rs2 = (((instruction >> 20) & 0b11111) as usize).into();
                 let rs1 = (((instruction >> 15) & 0b11111) as usize).into();
-                let funct3 = (instruction >> 12) & 0b11;
+                let funct3 = (instruction >> 12) & 0b111;
                 let imm40 = (instruction >> 7) & 0b11111;
 
                 // Merge and sign extend the immediate
