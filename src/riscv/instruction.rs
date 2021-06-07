@@ -250,23 +250,23 @@ pub enum Instruction {
 
     // S-Type
     Sb {
-        rs1: cpu::Register,
         rs2: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Sh {
-        rs1: cpu::Register,
         rs2: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Sw {
-        rs1: cpu::Register,
         rs2: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
     Sd {
-        rs1: cpu::Register,
         rs2: cpu::Register,
+        rs1: cpu::Register,
         imm: i32,
     },
 
@@ -1132,8 +1132,8 @@ mod tests {
             decode(0x00f707bb),
             Instruction::Addw {
                 rd: (crate::riscv::cpu::AbiRegister::A5).into(),
-                rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
-                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A4).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A5).into(),
             }
         );
     }
@@ -1143,8 +1143,8 @@ mod tests {
             decode(0x41b404bb),
             Instruction::Subw {
                 rd: (crate::riscv::cpu::AbiRegister::S1).into(),
-                rs2: (crate::riscv::cpu::AbiRegister::S10).into(),
-                rs1: (crate::riscv::cpu::AbiRegister::S11).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S10).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::S11).into(),
             }
         );
     }
@@ -1154,8 +1154,8 @@ mod tests {
             decode(0x008a96bb),
             Instruction::Sllw {
                 rd: (crate::riscv::cpu::AbiRegister::A3).into(),
-                rs2: (crate::riscv::cpu::AbiRegister::S5).into(),
-                rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::S5).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
             }
         );
     }
@@ -1165,8 +1165,8 @@ mod tests {
             decode(0x00b7573b),
             Instruction::Srlw {
                 rd: (crate::riscv::cpu::AbiRegister::A4).into(),
-                rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
-                rs1: (crate::riscv::cpu::AbiRegister::A1).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A4).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A1).into(),
             }
         );
     }
@@ -1176,8 +1176,8 @@ mod tests {
             decode(0x40f5553b),
             Instruction::Sraw {
                 rd: (crate::riscv::cpu::AbiRegister::A0).into(),
-                rs2: (crate::riscv::cpu::AbiRegister::A0).into(),
-                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A0).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::A5).into(),
             }
         );
     }
