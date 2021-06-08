@@ -295,17 +295,13 @@ impl InstructionFormat {
         match self {
             InstructionFormat::B => {
                 // Decode fields
-                let imm12105 = (instruction >> 25) & 0b1111111;
+                let imm12 = (instruction >> 31) & 0b1;
+                let imm105 = (instruction >> 25) & 0b111111;
                 let rs2 = (((instruction >> 20) & 0b11111) as usize).into();
                 let rs1 = (((instruction >> 15) & 0b11111) as usize).into();
                 let funct3 = (instruction >> 12) & 0b111;
-                let imm4111 = (instruction >> 7) & 0b11111;
-
-                // Split the immediate
-                let imm12 = (imm12105 & 0b1000000) >> 6;
-                let imm105 = imm12105 & 0b0111111;
-                let imm41 = (imm4111 & 0b11110) >> 1;
-                let imm11 = imm4111 & 0b00001;
+                let imm41 = (instruction >> 8) & 0b1111;
+                let imm11 = (instruction >> 7) & 0b1;
 
                 // Merge and sign extend the immediate
                 let imm = (imm12 << 12) | (imm11 << 11) | (imm105 << 5) | (imm41 << 1);
@@ -498,8 +494,6 @@ impl InstructionFormat {
                 let imm = (instruction >> 12) as i32;
                 let rd = (((instruction >> 7) & 0b11111) as usize).into();
 
-                println!("{:b} {:b}", instruction, imm);
-
                 match opcode {
                     0b0010111 => Instruction::Auipc { rd, imm },
                     0b0110111 => Instruction::Lui { rd, imm },
@@ -683,7 +677,7 @@ mod tests {
             Instruction::Beq {
                 rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::S7).into(),
-                imm: 10424
+                imm: 0x12d98 - 0x12d58
             }
         );
     }
@@ -691,10 +685,10 @@ mod tests {
     fn decode_bne() {
         assert_eq!(
             decode(0xff3416e3),
-            Instruction::Beq {
+            Instruction::Bne {
                 rs1: (crate::riscv::cpu::AbiRegister::S0Fp).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::S3).into(),
-                imm: 0x103dc
+                imm: 0x12d50 - 0x12d64
             }
         );
     }
@@ -705,18 +699,18 @@ mod tests {
             Instruction::Blt {
                 rs1: (crate::riscv::cpu::AbiRegister::A6).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
-                imm: 0x105b8
+                imm: 0x1f460 - 0x1f3d4
             }
         );
     }
     #[test]
     fn decode_bge() {
         assert_eq!(
-            decode(0xfce7dce3),
+            decode(0x0149d463),
             Instruction::Bge {
-                rs1: (crate::riscv::cpu::AbiRegister::A5).into(),
-                rs2: (crate::riscv::cpu::AbiRegister::A4).into(),
-                imm: 10198
+                rs1: (crate::riscv::cpu::AbiRegister::S3).into(),
+                rs2: (crate::riscv::cpu::AbiRegister::S4).into(),
+                imm: 0x107a0 - 0x10798
             }
         );
     }
@@ -724,10 +718,10 @@ mod tests {
     fn decode_bltu() {
         assert_eq!(
             decode(0xfed76ae3),
-            Instruction::Bge {
+            Instruction::Bltu {
                 rs1: (crate::riscv::cpu::AbiRegister::A4).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A3).into(),
-                imm: 0x102c8
+                imm: 0x1031c - 0x10328
             }
         );
     }
@@ -738,7 +732,7 @@ mod tests {
             Instruction::Bgeu {
                 rs1: (crate::riscv::cpu::AbiRegister::T1).into(),
                 rs2: (crate::riscv::cpu::AbiRegister::A2).into(),
-                imm: 0x102e0
+                imm: 0x10334 - 0x103cc
             }
         );
     }
