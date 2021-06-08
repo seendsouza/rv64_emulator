@@ -325,6 +325,10 @@ impl InstructionFormat {
                 let funct3 = (instruction >> 12) & 0b111;
                 let rd = (((instruction >> 7) & 0b11111) as usize).into();
 
+                let fm = (imm >> 8) & 0b1111;
+                let pred = (imm >> 4) & 0b1111;
+                let succ = imm & 0b1111;
+
                 // Shifts are encoded as a specialization of the I-type format
                 // Shift amount field for Slli, Srli and Srai
                 let shamt = (imm & 0b111111) as u32;
@@ -349,12 +353,11 @@ impl InstructionFormat {
                     },
                     0b0001111 => match funct3 {
                         0b000 => Instruction::Fence {
-                            // TODO: fix this
                             rd,
                             rs1,
-                            succ: (0),
-                            pred: (0),
-                            fm: (0),
+                            succ,
+                            pred,
+                            fm,
                         },
                         _ => Instruction::Undefined,
                     },
@@ -1002,7 +1005,16 @@ mod tests {
     }
     #[test]
     fn decode_fence() {
-        panic!("// TODO: implement this");
+        assert_eq!(
+            decode(0b01011010110101110000011110001111),
+            Instruction::Fence {
+                rd: (crate::riscv::cpu::AbiRegister::A5).into(),
+                rs1: (crate::riscv::cpu::AbiRegister::A4).into(),
+                succ: 0b1101,
+                pred: 0b1010,
+                fm: 0b101
+            }
+        );
     }
     #[test]
     fn decode_ecall() {
