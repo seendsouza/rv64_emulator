@@ -1,4 +1,9 @@
+use crate::riscv::execute;
 use crate::riscv::instruction;
+
+pub enum Xlen {
+    Bit64,
+}
 
 pub struct Cpu {
     // XLEN is 64 bits in rv64i
@@ -22,8 +27,9 @@ impl Cpu {
             | ((self.encoded_instructions[index + 3] as u32) << 24);
         encoded_instruction
     }
-    pub fn execute(&self, instruction: instruction::Instruction) {
-        //println!("{:?}", instruction);
+    pub fn execute(&mut self, instruction: instruction::Instruction) {
+        println!("{:?}", instruction);
+        execute::execute_instruction(instruction, self)
     }
 }
 
